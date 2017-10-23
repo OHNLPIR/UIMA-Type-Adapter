@@ -3,7 +3,6 @@ package edu.mayo.bsi.uima.adapter.api;
 import edu.mayo.bsi.uima.adapter.api.exceptions.AdapterFailureException;
 import edu.mayo.bsi.uima.adapter.api.exceptions.IllegalConfigurationException;
 import org.apache.uima.jcas.JCas;
-import org.json.JSONObject;
 
 import java.util.Deque;
 

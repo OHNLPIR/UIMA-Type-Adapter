@@ -19,7 +19,7 @@ import java.util.*;
 /**
  * The basic {@link ITypeAdapter} that uses path elements to perform mapping and transformers to modify evaluated output
  */
-public class MappingTypeAdapter implements ITypeAdapter {
+public class DirectMappingTypeAdapter implements ITypeAdapter {
 
     private IPathElement sourcePathDef;
     private IPathElement targetPathDef;
@@ -80,8 +80,8 @@ public class MappingTypeAdapter implements ITypeAdapter {
 
     @SuppressWarnings("unchecked")
     @Override
-    public TOP convert(JCas cas, TOP ann) throws AdapterFailureException {
-        Deque<String> stack = new LinkedList<>();
+    public Collection<TOP> convert(JCas cas, TOP ann) throws AdapterFailureException {
+        Deque<String> stack;
         TOP ret;
         try {
             ret = constructBlankInstance(cas);
@@ -89,6 +89,7 @@ public class MappingTypeAdapter implements ITypeAdapter {
             throw new AdapterFailureException("Error in adapter creating target type", e);
         }
         for (Mapping m : mappings) {
+            stack = new LinkedList<>();
             for (String s : m.srcArr) {
                 stack.addLast(s);
             }
@@ -115,7 +116,7 @@ public class MappingTypeAdapter implements ITypeAdapter {
                 throw new AdapterFailureException("Error in adapter storing target type", e);
             }
         }
-        return ret;
+        return Collections.singleton(ret);
     }
 
     private TOP constructBlankInstance(JCas cas) throws IllegalAccessException, InvocationTargetException, InstantiationException {
@@ -128,19 +129,5 @@ public class MappingTypeAdapter implements ITypeAdapter {
         }
     }
 
-    private class Mapping {
-        String src;
-        String dest;
-        String[] srcArr;
-        String[] destArr;
-        List<IValueTransformer> transformers;
 
-        private Mapping(String src, String dest, List<IValueTransformer> transformers) {
-            this.src = src;
-            this.dest = dest;
-            this.srcArr = Util.escapedStringSplit(src, '.', '\\');
-            this.destArr = Util.escapedStringSplit(dest, '.', '\\');;
-            this.transformers = transformers;
-        }
-    }
 }

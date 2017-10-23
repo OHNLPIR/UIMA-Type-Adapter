@@ -1,10 +1,11 @@
 package edu.mayo.bsi.uima.adapter.api;
 
-import edu.mayo.bsi.uima.adapter.api.exceptions.AdapterFailureException;
-import org.apache.uima.jcas.JCas;
-import org.apache.uima.jcas.cas.TOP;
-import org.apache.uima.jcas.tcas.Annotation;
-import org.json.JSONObject;
+        import edu.mayo.bsi.uima.adapter.api.exceptions.AdapterFailureException;
+        import org.apache.uima.jcas.JCas;
+        import org.apache.uima.jcas.cas.TOP;
+        import org.json.JSONObject;
+
+        import java.util.Collection;
 
 /**
  * Implementations of this type define a conversion from one UIMA feature structure to another<br>
@@ -33,8 +34,9 @@ public interface ITypeAdapter {
      * Converts a given annotation to the target type and stores it within the cas index. <br>
      *
      * @param cas The cas in which to store the converted feature structure
-     * @param fs The feature structure to convert
-     * @return The converted annotation, or null if conversion failed
+     * @param fs  The feature structure to convert
+     * @return The converted annotation(s), can be either single or multiple element depending if this is a n:1 or n:m conversion,
+     * or null if conversion failed
      */
-    TOP convert(JCas cas, TOP fs) throws AdapterFailureException;
+    Collection<TOP> convert(JCas cas, TOP fs) throws AdapterFailureException;
 }

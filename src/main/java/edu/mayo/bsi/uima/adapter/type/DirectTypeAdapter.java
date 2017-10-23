@@ -12,10 +12,11 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
- * @deprecated use {@link MappingTypeAdapter} instead
+ * @deprecated use {@link DirectMappingTypeAdapter} instead
  * Provides a simple mapping of a source field within the source UIMA annotation to a target field within the destination<br>
  * Not thread safe: use external synchronization or a separate instance per thread
  * <br>
@@ -68,7 +69,7 @@ public class DirectTypeAdapter implements ITypeAdapter {
     }
 
     @Override
-    public TOP convert(JCas cas, TOP ann) {
+    public Collection<TOP> convert(JCas cas, TOP ann) {
 //        Object val = getSourceAnnotationValue(ann);
 //        return createAndStoreTargetAnnotation(cas, val, ann.getBegin(), ann.getEnd());
         return null; // TODO
